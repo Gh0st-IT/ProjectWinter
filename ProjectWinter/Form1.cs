@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectWinter.Functions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,10 @@ namespace ProjectWinter
         public Form1()
         {
             InitializeComponent();
+            
+            WindowsUpdater.UpdateChecker();
         }
+
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
@@ -25,11 +29,11 @@ namespace ProjectWinter
             }
         }
 
-        private void notifyIcon1_Click(object sender, EventArgs e)
+        private void sysTray_Click(object sender, EventArgs e)
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
-            sysTray.Visible = false;
+            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,8 +43,8 @@ namespace ProjectWinter
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.WindowState = FormWindowState.Minimized;
+            //e.Cancel = true;
+            //this.WindowState = FormWindowState.Minimized;
         }
     }
 }
