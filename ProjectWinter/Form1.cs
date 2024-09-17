@@ -15,6 +15,7 @@ namespace ProjectWinter
         public Form1()
         {
             InitializeComponent();
+            Console.WriteLine("TEST");
         }
         private void MainForm_Resize(object sender, EventArgs e)
         {
