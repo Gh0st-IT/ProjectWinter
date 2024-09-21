@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WUApiLib;
 
 namespace ProjectWinter.Functions
@@ -23,6 +24,11 @@ namespace ProjectWinter.Functions
                 ISearchResult searchResult = updateSearcher.Search("IsInstalled=0");
 
                 Console.WriteLine($"Number of updates available: {searchResult.Updates.Count}");
+                if(searchResult.Updates.Count == 0)
+                {
+                    MessageBox.Show("No Windows Update Found");
+                    return;
+                }
 
                 // Loop through each update found
                 for (int i = 0; i < searchResult.Updates.Count; i++)
