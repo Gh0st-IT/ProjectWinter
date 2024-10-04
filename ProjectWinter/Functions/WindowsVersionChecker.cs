@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace ProjectWinter.Functions
 {
@@ -13,12 +14,14 @@ namespace ProjectWinter.Functions
         public string DisplayVersion { get; set; }
         public string OSBuild { get; set; }
         public string OSVersion { get; set; }
+        public string OperatingSystemVersion { get; set; }
 
-        public WindowsDetails(string displayVersion, string osBuild, string osVersion)
+        public WindowsDetails(string displayVersion, string osBuild, string osVersion, string operatingSystemVersion)
         {
             this.DisplayVersion = displayVersion;
             this.OSBuild = osBuild;
             this.OSVersion = osVersion;
+            this.OperatingSystemVersion = operatingSystemVersion;
         }
     }
     internal class WindowsVersionChecker
@@ -29,22 +32,23 @@ namespace ProjectWinter.Functions
             string osVersion = GetOSVersion();
             string osFullBuild = GetFullOSBuild();
             string displayVersion = GetDisplayVersion();
+            string operatingSystemVersion = GetOperatingSystemVersion();
 
             // Get the Windows Version Information as an object
             WindowsDetails versionInfo =  new WindowsDetails
                 (
                     osVersion,
                     osFullBuild,
-                    displayVersion
+                    displayVersion,
+                    operatingSystemVersion
                 );
+
+            // Now you can access the details of the windows object
+            //Console.WriteLine($"Display Version: {windows.DisplayVersion}");
+            //Console.WriteLine($"OS Build: {windows.OSBuild}");
+            //Console.WriteLine($"OS Version: {windows.OSVersion}");
+
             return versionInfo;
-
-            // Print the version info (or you can use it in your program)
-            //Console.WriteLine(versionInfo);
-
-            // Print the information
-            //Console.WriteLine($"Microsoft Windows");
-            //Console.WriteLine($"Version {displayVersion} (OS Build {osFullBuild})");
         }
 
 
@@ -116,6 +120,25 @@ namespace ProjectWinter.Functions
             }
 
             return displayVersion;
+        }
+
+        static string GetOperatingSystemVersion()
+        {
+            //string productName = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", "");
+            string osBuild = GetFullOSBuild();
+
+            if (osBuild.Contains("226"))
+            {
+                return "Windows 11";
+            }
+            else if (osBuild.Contains("190"))
+            {
+                return "Windows 10";
+            }
+            else
+            {
+                return "Other version of Windows";
+            }
         }
     }
 }

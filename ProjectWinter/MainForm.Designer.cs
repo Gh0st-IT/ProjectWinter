@@ -34,8 +34,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.operatingSystemVersion = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.user = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.osBuild = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,7 +46,9 @@
             this.osVersion = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.checkWindowsUpdate = new System.Windows.Forms.Button();
-            this.user = new System.Windows.Forms.Label();
+            this.pcNameLabel = new System.Windows.Forms.Label();
+            this.appVersion = new System.Windows.Forms.Label();
+            this.btnOtherInformation = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -59,7 +62,7 @@
             // 
             this.sysTray.ContextMenuStrip = this.contextMenuStrip1;
             this.sysTray.Icon = ((System.Drawing.Icon)(resources.GetObject("sysTray.Icon")));
-            this.sysTray.Text = "Project Winter";
+            this.sysTray.Text = "Winter";
             this.sysTray.Visible = true;
             this.sysTray.Click += new System.EventHandler(this.sysTray_Click);
             // 
@@ -87,33 +90,45 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // label1
+            // operatingSystemVersion
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.Control;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label1.Location = new System.Drawing.Point(82, 32);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 24);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Windows Updater";
+            this.operatingSystemVersion.AutoSize = true;
+            this.operatingSystemVersion.BackColor = System.Drawing.SystemColors.Control;
+            this.operatingSystemVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.operatingSystemVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.operatingSystemVersion.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.operatingSystemVersion.Location = new System.Drawing.Point(82, 25);
+            this.operatingSystemVersion.Name = "operatingSystemVersion";
+            this.operatingSystemVersion.Size = new System.Drawing.Size(157, 37);
+            this.operatingSystemVersion.TabIndex = 2;
+            this.operatingSystemVersion.Text = "Windows";
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.user);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.operatingSystemVersion);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(527, 86);
             this.panel1.TabIndex = 3;
             // 
+            // user
+            // 
+            this.user.BackColor = System.Drawing.SystemColors.Control;
+            this.user.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.user.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.user.Location = new System.Drawing.Point(326, 32);
+            this.user.Name = "user";
+            this.user.Size = new System.Drawing.Size(190, 24);
+            this.user.TabIndex = 3;
+            this.user.Text = "User";
+            this.user.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.osBuild);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -128,7 +143,7 @@
             this.osBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.osBuild.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.osBuild.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.osBuild.Location = new System.Drawing.Point(15, 43);
+            this.osBuild.Location = new System.Drawing.Point(17, 45);
             this.osBuild.Name = "osBuild";
             this.osBuild.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.osBuild.Size = new System.Drawing.Size(212, 22);
@@ -172,7 +187,6 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.Control;
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.osVersion);
             this.panel6.Controls.Add(this.label7);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -187,7 +201,7 @@
             this.osVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.osVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.osVersion.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.osVersion.Location = new System.Drawing.Point(15, 43);
+            this.osVersion.Location = new System.Drawing.Point(17, 45);
             this.osVersion.Name = "osVersion";
             this.osVersion.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.osVersion.Size = new System.Drawing.Size(212, 22);
@@ -209,9 +223,10 @@
             // checkWindowsUpdate
             // 
             this.checkWindowsUpdate.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.checkWindowsUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkWindowsUpdate.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkWindowsUpdate.ForeColor = System.Drawing.SystemColors.Control;
-            this.checkWindowsUpdate.Location = new System.Drawing.Point(10, 351);
+            this.checkWindowsUpdate.Location = new System.Drawing.Point(10, 191);
             this.checkWindowsUpdate.Name = "checkWindowsUpdate";
             this.checkWindowsUpdate.Padding = new System.Windows.Forms.Padding(8);
             this.checkWindowsUpdate.Size = new System.Drawing.Size(162, 62);
@@ -220,31 +235,62 @@
             this.checkWindowsUpdate.UseVisualStyleBackColor = false;
             this.checkWindowsUpdate.Click += new System.EventHandler(this.checkWindowsUpdate_Click);
             // 
-            // user
+            // pcNameLabel
             // 
-            this.user.BackColor = System.Drawing.SystemColors.Control;
-            this.user.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.user.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.user.Location = new System.Drawing.Point(326, 32);
-            this.user.Name = "user";
-            this.user.Size = new System.Drawing.Size(190, 24);
-            this.user.TabIndex = 3;
-            this.user.Text = "User";
-            this.user.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.pcNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pcNameLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.pcNameLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pcNameLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.pcNameLabel.Location = new System.Drawing.Point(326, 208);
+            this.pcNameLabel.Name = "pcNameLabel";
+            this.pcNameLabel.Size = new System.Drawing.Size(190, 24);
+            this.pcNameLabel.TabIndex = 9;
+            this.pcNameLabel.Text = "PC Name";
+            this.pcNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // appVersion
+            // 
+            this.appVersion.AutoSize = true;
+            this.appVersion.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.appVersion.Location = new System.Drawing.Point(476, 241);
+            this.appVersion.Name = "appVersion";
+            this.appVersion.Size = new System.Drawing.Size(40, 13);
+            this.appVersion.TabIndex = 10;
+            this.appVersion.Text = "1.0.0.0";
+            // 
+            // btnOtherInformation
+            // 
+            this.btnOtherInformation.BackColor = System.Drawing.Color.Transparent;
+            this.btnOtherInformation.FlatAppearance.BorderSize = 0;
+            this.btnOtherInformation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOtherInformation.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOtherInformation.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnOtherInformation.Location = new System.Drawing.Point(178, 228);
+            this.btnOtherInformation.Name = "btnOtherInformation";
+            this.btnOtherInformation.Size = new System.Drawing.Size(114, 23);
+            this.btnOtherInformation.TabIndex = 11;
+            this.btnOtherInformation.Text = "Other Information";
+            this.btnOtherInformation.UseVisualStyleBackColor = false;
+            this.btnOtherInformation.Click += new System.EventHandler(this.btnOtherInformation_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(527, 425);
+            this.ClientSize = new System.Drawing.Size(527, 263);
+            this.Controls.Add(this.btnOtherInformation);
+            this.Controls.Add(this.appVersion);
+            this.Controls.Add(this.pcNameLabel);
             this.Controls.Add(this.checkWindowsUpdate);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.contextMenuStrip1.ResumeLayout(false);
@@ -258,6 +304,7 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -267,7 +314,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label operatingSystemVersion;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label osBuild;
@@ -279,6 +326,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button checkWindowsUpdate;
         private System.Windows.Forms.Label user;
+        private System.Windows.Forms.Label pcNameLabel;
+        private System.Windows.Forms.Label appVersion;
+        private System.Windows.Forms.Button btnOtherInformation;
     }
 }
 

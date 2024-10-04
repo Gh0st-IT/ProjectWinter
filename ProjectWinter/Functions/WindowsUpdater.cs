@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectWinter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,60 +13,123 @@ namespace ProjectWinter.Functions
     {
         public static void UpdateChecker()
         {
+            InstallUpdates();
+        }
+
+        public static void UpdateCheckerClickable()
+        {
             try
             {
-                // Create an UpdateSession object
+                MessageBox.Show("Checking Windows Update");
+
                 UpdateSession updateSession = new UpdateSession();
-
-                // Create an UpdateSearcher object
                 IUpdateSearcher updateSearcher = updateSession.CreateUpdateSearcher();
-
-                // Search for available updates (IsInstalled=0 means updates that are not installed)
                 ISearchResult searchResult = updateSearcher.Search("IsInstalled=0");
 
-                Console.WriteLine($"Number of updates available: {searchResult.Updates.Count}");
-                if(searchResult.Updates.Count == 0)
+                if (searchResult.Updates.Count == 0)
                 {
-                    MessageBox.Show("No Windows Update Found");
+                    MessageBox.Show("No updates available.");
                     return;
                 }
+                MessageBox.Show("Windows Updates Detected");
 
-                // Loop through each update found
+                IUpdateInstaller installer = updateSession.CreateUpdateInstaller();
+                UpdateCollection updateCollection = new UpdateCollection();
+
                 for (int i = 0; i < searchResult.Updates.Count; i++)
                 {
-                    IUpdate update = searchResult.Updates[i];
-
-                    // Check if the update is a Windows Update
-                    bool isWindowsUpdate = false;
-
-                    foreach (ICategory category in update.Categories)
-                    {
-                        if (category.Name.Contains("Security Update") ||
-                            category.Name.Contains("Critical Update") ||
-                            category.Name.Contains("Update Rollup") ||
-                            category.Name.Contains("Feature Pack"))
-                        {
-                            isWindowsUpdate = true;
-                            break;
-                        }
-                    }
-
-                    if (isWindowsUpdate)
-                    {
-                        Console.WriteLine($"Windows Update {i + 1}: {update.Title}");
-                        Console.WriteLine($"  Description: {update.Description}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Non-Windows Update {i + 1}: {update.Title}");
-                    }
+                    updateCollection.Add(searchResult.Updates[i]);
                 }
+
+                installer.Updates = updateCollection;
+                IInstallationResult result = installer.Install();
+
+                //Update database after installation success
+                //Initial Components
+                WindowsDetails windows = WindowsVersionChecker.Checker();
+                ApplicationProperties application = new ApplicationProperties();
+
+
+                //Variables
+                string OSVersion = windows.OSVersion;
+                string OSBuild = windows.OSBuild;
+                string OperatingSystemVersion = windows.OperatingSystemVersion;
+                string AppVersion = application.current_version;
+
+                string username = MachineFunctions.GetCurrentLoggedInUser();
+                string pcName = MachineFunctions.GetMachineName();
+                string ip = MachineFunctions.GetIPAddress();
+                
+                Machines machines = new Machines(pcName, OSBuild, username, OperatingSystemVersion, AppVersion, ip);
+                machines.UpdateMachine();
+
+                Console.WriteLine("Installation Result: " + result.ResultCode);
+                if (result.RebootRequired)
+                {
+                    MessageBox.Show("Windows Updates Installed. Restart your computer");
+                }
+
+                //Console.WriteLine("Reboot Required: " + result.RebootRequired);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred while checking for updates: {ex.Message}");
             }
         }
+
+        private static void InstallUpdates()
+        {
+            //Update database after installation success
+            //Initial Components
+            WindowsDetails windows = WindowsVersionChecker.Checker();
+            ApplicationProperties application = new ApplicationProperties();
+
+
+            //Variables
+            string OSVersion = windows.OSVersion;
+            string OSBuild = windows.OSBuild;
+            string OperatingSystemVersion = windows.OperatingSystemVersion;
+            string AppVersion = application.current_version;
+
+            string username = MachineFunctions.GetCurrentLoggedInUser();
+            string pcName = MachineFunctions.GetMachineName();
+            string ip = MachineFunctions.GetIPAddress();
+
+            Machines machines = new Machines(pcName, OSBuild, username, OperatingSystemVersion, AppVersion, ip);
+            machines.UpdateMachine();
+
+            //Initiate Windows Update
+            UpdateSession updateSession = new UpdateSession();
+            IUpdateSearcher updateSearcher = updateSession.CreateUpdateSearcher();
+            ISearchResult searchResult = updateSearcher.Search("IsInstalled=0");
+
+            if (searchResult.Updates.Count == 0)
+            {
+                Console.WriteLine("No updates available.");
+                return;
+            }
+            MessageBox.Show("Windows Updates Detected");
+
+            IUpdateInstaller installer = updateSession.CreateUpdateInstaller();
+            UpdateCollection updateCollection = new UpdateCollection();
+
+            for (int i = 0; i < searchResult.Updates.Count; i++)
+            {
+                updateCollection.Add(searchResult.Updates[i]);
+            }
+
+            installer.Updates = updateCollection;
+            IInstallationResult result = installer.Install();
+
+            
+
+            Console.WriteLine("Installation Result: " + result.ResultCode);
+            if (result.RebootRequired)
+            {
+                MessageBox.Show("Windows Updates Installed. Restart your computer");
+            }
+            
+            //Console.WriteLine("Reboot Required: " + result.RebootRequired);
+        }
     }
-    
 }
