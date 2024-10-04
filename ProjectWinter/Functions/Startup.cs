@@ -5,13 +5,14 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace ProjectWinter.Functions
 {
     internal class Startup
     {
-        public void AddToStartup()
+        public static void AddToStartup()
         {
             string appName = "Winter"; // Change this to your application's name
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location; // Path to your .exe
@@ -123,8 +124,14 @@ namespace ProjectWinter.Functions
         {
             try
             {
+                // For All Users Startup (Requires Admin)
                 string startupFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "Winter.lnk");
-                string appPath = Application.ExecutablePath;
+
+                // For Current User Startup (No Admin needed)
+                // string startupFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "Winter.lnk");
+
+                string appPath = @"\\apbiphsh07\D0_ShareBrotherGroup\19_BPS\Installer\Winter\setup.exe";
+                string iconPath = @"\\apbiphsh07\D0_ShareBrotherGroup\19_BPS\Installer\Winter\snowflake.ico";
 
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(startupFolderPath);
@@ -132,16 +139,62 @@ namespace ProjectWinter.Functions
                 shortcut.TargetPath = appPath;
                 shortcut.WorkingDirectory = Path.GetDirectoryName(appPath);
                 shortcut.Description = "Winter";
+
+                // Set the icon for the shortcut
+                shortcut.IconLocation = iconPath; // or specify an exe or dll with index, e.g., "C:\Path\MyApp.exe,0"
+
                 shortcut.Save();
 
-                Console.WriteLine("Startup shortcut created successfully.", "Success");
+                Console.WriteLine("Startup shortcut created successfully.");
             }
             catch (Exception ex)
             {
                 //MessageBox.Show($"Failed to create startup shortcut: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 MessageBox.Show($"WINTER Started (Non-Administrative)", "Winter", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        public static bool AddToStartupForAllUsers()
+        {
+            string appName = "Winter"; // Change this to your application's name
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location; // Path to your .exe
+
+            const string StartupKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+
+            try
+            {
+                // Check for administrative privileges
+                if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    throw new UnauthorizedAccessException("Administrative privileges are required.");
+                }
+
+                // Open the registry key
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(StartupKeyPath, true))
+                {
+                    if (key == null)
+                    {
+                        throw new Exception($"Unable to open registry key: {StartupKeyPath}");
+                    }
+
+                    // Set the value in the registry
+                    key.SetValue(appName, appPath, RegistryValueKind.String);
+
+                    // Verify the value was set correctly
+                    if (key.GetValue(appName).ToString() != appPath)
+                    {
+                        throw new Exception("Failed to set registry value correctly.");
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding to startup: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }
