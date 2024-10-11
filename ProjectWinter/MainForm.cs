@@ -135,8 +135,8 @@ namespace ProjectWinter
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //this.Visible = false;
-            Application.Exit();
-            Environment.Exit(0);
+            //Application.Exit();
+            //Environment.Exit(0);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
